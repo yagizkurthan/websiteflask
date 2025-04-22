@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #080710;
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      .background {
+        width: 430px;
+        height: 520px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+      }
+
+      .background .shape {
+        height: 200px;
+        width: 200px;
+        position: absolute;
+        border-radius: 50%;
+      }
+
+      .background .shape:first-child {
+        background: linear-gradient(#1845ad, #23a2f6);
+        left: -80px;
+        top: -80px;
+      }
+
+      .background .shape:last-child {
+        background: linear-gradient(to right, #ff512f, #f09819);
+        right: -30px;
+        bottom: -80px;
+      }
+
+      .container {
+        width: 400px;
+        height: auto;
+        background-color: rgba(255, 255, 255, 0.13);
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+        padding: 50px 35px;
+        z-index: 1;
+      }
+
+      .container *:not(button) {
+        color: rgb(255, 255, 255);
+        letter-spacing: 0.5px;
+        outline: none;
+        border: none;
+      }
+
+      .container h2 {
+        font-size: 32px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-top: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .input-group input {
+        display: block;
+        height: 45px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.07);
+        border-radius: 3px;
+        padding: 0 10px;
+        margin-top: 8px;
+        font-size: 14px;
+        font-weight: 300;
+        color: #ffffff;
+      }
+
+      .input-group input::placeholder {
+        color: #e5e5e5;
+      }
+
+      button {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #ffffff;
+        color: #000000;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 4px 15px rgba(24, 69, 173, 0.5);
+        background-color: #f0f0f0;
+      }
+
+      .login-btn {
+        margin-top: 15px;
+        background-color: transparent;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 10px 0;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .login-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 4px 15px rgba(24, 69, 173, 0.5);
+        background-color: #f0f0f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="background">
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+
+    <div class="container">
+      <h2>Sign Up Here</h2>
+
+      <!-- Sign Up Form -->
+      <form method="POST">
+        <div class="input-group">
+          <label for="user_id">User ID</label>
+          <input
+            type="text"
+            id="user_id"
+            name="user_id"
+            placeholder="Enter your User ID"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            placeholder="Enter your first name"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password1">Password</label>
+          <input
+            type="password"
+            id="password1"
+            name="password1"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            placeholder="Confirm your password"
+            required
+          />
+        </div>
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <!-- Login Button -->
+      <a href="/login">
+        <button type="button" class="login-btn">
+          Already have an account? Login
+        </button>
+      </a>
+    </div>
+  </body>
+</html>

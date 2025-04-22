@@ -1,0 +1,10 @@
+# Byte-compiled Python
+*.pyc
+__pycache__/
+
+# Editor settings
+.vscode/
+
+# SQLite DB
+instance/database.db
+website/database.db

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedShield Login</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      /* Background Video */
+      .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1; /* Keeps the video behind other elements */
+        filter: brightness(0.5); /* Dim the video for better text visibility */
+      }
+
+      .login-container {
+        width: 420px;
+        background: rgba(36, 36, 36, 0.63);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+        padding: 2.5rem;
+        text-align: center;
+        position: relative;
+        color: #eaeaea;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 1.5rem;
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+        padding: 5px;
+      }
+
+      .brand-name {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #ffffff;
+        background:rgb(255, 255, 255)
+        -webkit-background-clip: text;
+
+      }
+
+      h2 {
+        font-size: 1.7rem;
+        font-weight: 800;
+        margin-bottom: 1.8rem;
+        margin-top: 0.5rem;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        padding-bottom: 5px;
+      }
+
+      .input-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: #d0d0d0;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 0.7rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: border 0.3s ease, background-color 0.3s ease;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border: 1px solid #6366f1;
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      button {
+        width: 100%;
+        padding: 0.7rem;
+        background:rgb(20, 20, 20)
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 1rem;
+        box-sizing: border-box;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Back Arrow Styling */
+      .back-arrow {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.8rem;
+        cursor: pointer;
+        line-height: 1;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .back-arrow:hover {
+        color: #ffffff;
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop id="backgroundVideo">
+      <source src="static/videos/loginvideo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="login-container">
+      <!-- Back Arrow -->
+      <button
+        class="back-arrow"
+        onclick="window.location.href='/'"
+        title="Go Back"
+      >
+        ←
+      </button>
+
+      <!-- Logo and Brand Name -->
+      <div class="logo-container">
+        <img class="logo" src="static/images/logo12.png" alt="Logo" />
+        <span class="brand-name">MedShield</span>
+      </div>
+
+      <!-- Login Form -->
+      <h2>LOG IN</h2>
+      <form method="POST">
+        <div class="input-group">
+          <label for="user_id">Username</label>
+          <input
+            type="text"
+            id="user_id"
+            name="user_id"
+            placeholder="Enter your ID"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <button type="submit">Log in</button>
+      </form>
+    </div>
+
+    <!-- JavaScript to Slow Down Video -->
+    <script>
+      const video = document.getElementById("backgroundVideo");
+      video.playbackRate = 0.3; // Slows the video to slow speed
+    </script>
+  </body>
+</html>

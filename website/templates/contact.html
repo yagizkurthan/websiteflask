@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Contact Us - Redesigned</title>
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "Montserrat", sans-serif;
+        background-color: rgba(19, 19, 19, 0.47);
+        overflow: hidden;
+        scroll-behavior: smooth;
+      }
+
+      /* Background Styling */
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("static/images/dark.jpg") no-repeat center center /
+          cover;
+        z-index: -1;
+      }
+
+      /* Contact Form Container */
+      .container {
+        max-width: 600px;
+        width: 100%;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        position: relative;
+        margin: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ffffff;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        background:rgb(255, 255, 255)
+        -webkit-background-clip: text;
+
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        font-size: 1rem;
+        outline: none;
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      input:focus,
+      textarea:focus {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+      }
+
+      textarea {
+        resize: none;
+      }
+
+      .btn-submit {
+        padding: 12px;
+        background: linear-gradient(to right, #3b82f6, #6366f1, #ec4899);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .btn-submit:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .contact-info {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .contact-info p {
+        color: rgba(255, 255, 255, 0.8);
+        margin: 5px 0;
+      }
+
+      .contact-info a {
+        color: #38bdf8;
+        text-decoration: none;
+      }
+
+      .contact-info a:hover {
+        text-decoration: underline;
+      }
+
+      /* Back Arrow Styling */
+      .back-arrow {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        color: white;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      .back-arrow:hover {
+        color: #38bdf8;
+      }
+
+      /* Success Message */
+      .success-message {
+        display: none;
+        color: #38bdf8;
+        border: 2px solid #38bdf8;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <div class="container">
+      <!-- Back Arrow -->
+      <button
+        class="back-arrow"
+        onclick="window.location.href='/'"
+        title="Go Back"
+      >
+        ←
+      </button>
+
+      <h1>Contact Us</h1>
+      <p>We’d love to hear from you. Fill out the form below!</p>
+
+      <form
+        action="#"
+        method="POST"
+        class="contact-form"
+        onsubmit="handleSubmit(event)"
+      >
+        <input type="email" name="email" placeholder="Your email" required />
+        <input type="text" name="subject" placeholder="Subject" required />
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="Your message"
+          required
+        ></textarea>
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+
+      <div class="success-message" id="success-message">
+        <p>Thank you! Your message has been sent.</p>
+      </div>
+
+      <div class="contact-info">
+        <p>Email: <a href="mailto:info@biruni.edu.tr">info@biruni.edu.tr</a></p>
+        <p>Phone: +90 212 416 46 46</p>
+      </div>
+    </div>
+
+    <script>
+      function handleSubmit(event) {
+        event.preventDefault();
+        document.querySelector(".contact-form").style.display = "none";
+        document.getElementById("success-message").style.display = "block";
+      }
+    </script>
+  </body>
+</html>

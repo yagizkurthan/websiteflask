@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedShield | Partners</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "Montserrat", sans-serif;
+        background-color: rgba(48, 48, 48, 0.13);
+        scroll-behavior: smooth;
+      }
+
+      /* Sticky Background Video */
+      .background-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1; /* Keeps the video behind all other elements */
+      }
+
+      /* Navbar Styling */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.51);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: background-color 0.3s ease-in-out;
+        height: 60px;
+      }
+      header h1 {
+       font-size: 1.8rem;
+       font-weight: 900;
+       cursor: pointer; /* Mouse şekli değişir */
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav a {
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 8px 16px;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #38bdf8;
+      }
+
+      /* Hero Section (Our Clients) */
+      .hero {
+        position: relative;
+        height: 100vh; /* Full-screen height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        overflow: hidden;
+      }
+      .hero h1 {
+        font-size: 3.5em;
+        background: linear-gradient(to right, #3b82f6, #6366f1, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero p {
+        font-size: 1.3em;
+        margin-top: 20px;
+      }
+
+      /* Partners Section */
+      .partners {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background-color: rgba(48, 48, 48, 0.13);
+        gap: 20px;
+        padding: 80px 40px; /* Adds padding for spacing */
+        position: relative; /* Ensures it's on top of the video */
+      }
+      .partner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        background: rgba(40, 36, 36, 0.26); /* Transparent background */
+        backdrop-filter: blur(10px); /* Adds blur effect */
+        border: 1px solid rgba(81, 81, 81, 0.2); /* Subtle border */
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+        padding: 20px;
+        text-align: center;
+        color: white;
+        height: 200px;
+        opacity: 0; /* Initially hidden */
+        transform: translateY(50px); /* Slide in effect */
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+      .partner.fade-in {
+        opacity: 1;
+        transform: translateY(0); /* Fade and slide in */
+      }
+      .partner img {
+        max-width: 150px;
+        max-height: 150px;
+        margin-bottom: 15px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+      .partner:hover img {
+        transform: scale(1.1);
+      }
+      .partner h3 {
+        margin-top: auto;
+        font-size: 1.2em;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .partners {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 900px) {
+        .partners {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .partners {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+      /* Updated Navbar Animation */
+      header.scrolled {
+        background: rgba(0, 0, 0, 0.8);
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      /* Hero Text Animation */
+      .hero h1 {
+        animation: fadeInUp 1s ease-out;
+      }
+      .hero p {
+        animation: fadeInUp 1.5s ease-out;
+      }
+
+      /* Partner Hover Animation */
+      .partner:hover {
+        transform: scale(1.05) rotate(2deg);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Keyframes for Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Staggered Fade-In for Partners */
+      .partner {
+        animation: fadeIn 0.6s ease forwards;
+        animation-delay: calc(var(--delay) * 0.2s);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop>
+      <source src="/static/videos/11111.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Navbar -->
+    <header>
+      <h1 onclick="window.location.href='/'" style="cursor: pointer;">MedShield</h1>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('views.home1') }}">Home</a></li>
+          <li><a href="{{ url_for('views.about') }}">About Us</a></li>
+          {% if not user.is_authenticated %}
+          <li>
+            <a href="{{ url_for('auth.login') }}">Login</a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{{ url_for('views.home') }}">Monitoring</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+    
+
+    <!-- Hero Section (Our Clients) -->
+    <section class="hero" id="hero">
+      <div>
+        <h1>Our Clients</h1>
+        <p>
+          Leading hospitals globally rely on MedShield’s AI-powered system to
+          detect violent behavior in real-time.
+        </p>
+        <p>
+          Our secure platform empowers staff to ensure safety and protection for
+          all.
+        </p>
+      </div>
+    </section>
+
+    <!-- Partners Section -->
+    <div class="partners" id="partners">
+      <a href="https://www.mayoclinic.org/" class="partner" target="_blank">
+        <img
+          src="{{ url_for('static', filename='images/mayo.jpg') }}"
+          alt="Mayo Clinic (USA)"
+        />
+        <h3>Mayo Clinic (USA)</h3>
+      </a>
+      <a
+        href="https://www.birunihastanesi.com.tr/"
+        class="partner"
+        target="_blank"
+      >
+        <img
+          src="{{ url_for('static', filename='images/biruni.jpg') }}"
+          alt="Biruni University Hospital"
+        />
+        <h3>Biruni University Hospital (Turkiye)</h3>
+      </a>
+      <a
+        href="https://www.hopkinsmedicine.org/the_johns_hopkins_hospital/"
+        class="partner"
+        target="_blank"
+      >
+        <img
+          src="{{ url_for('static', filename='images/johns.jpg') }}"
+          alt="Johns Hopkins Hospital (USA)"
+        />
+        <h3>Johns Hopkins Hospital (USA)</h3>
+      </a>
+      <a href="https://www.massgeneral.org/" class="partner" target="_blank">
+        <img
+          src="{{ url_for('static', filename='images/mgh.jpg') }}"
+          alt="Massachusetts General Hospital (USA)"
+        />
+        <h3>Massachusetts General Hospital (USA)</h3>
+      </a>
+      <a href="https://www.charite.de/en/" class="partner" target="_blank">
+        <img
+          src="{{ url_for('static', filename='images/charite.jpg') }}"
+          alt="Charité – Universitätsmedizin Berlin (Germany)"
+        />
+        <h3>Charité – Universitätsmedizin Berlin (Germany)</h3>
+      </a>
+      <a href="https://www.sgh.com.sg/" class="partner" target="_blank">
+        <img
+          src="{{ url_for('static', filename='images/singapore.jpg') }}"
+          alt="Singapore General Hospital (Singapore)"
+        />
+        <h3>Singapore General Hospital (Singapore)</h3>
+      </a>
+      <a
+        href="https://acibademinternational.com/"
+        class="partner"
+        target="_blank"
+      >
+        <img
+          src="{{ url_for('static', filename='images/acıbadem.jpg') }}"
+          alt="Acıbadem Healthcare Group (Turkiye)"
+        />
+        <h3>Acıbadem Healthcare Group (Turkiye)</h3>
+      </a>
+      <a
+        href="https://www.aphp.fr/contenu/hopital-universitaire-pitie-salpetriere"
+        class="partner"
+        target="_blank"
+      >
+        <img
+          src="{{ url_for('static', filename='images/pitie.jpg') }}"
+          alt="Pitié-Salpêtrière University Hospital (France)"
+        />
+        <h3>Pitié-Salpêtrière University Hospital (France)</h3>
+      </a>
+    </div>
+
+    <!-- JavaScript for Fade-In Effect -->
+    <script>
+      // Navbar Scroll Background Change
+      window.addEventListener("scroll", () => {
+        const header = document.querySelector("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Add Staggered Animation Delays for Partners
+      const partners = document.querySelectorAll(".partner");
+      partners.forEach((partner, index) => {
+        partner.style.setProperty("--delay", index);
+      });
+
+      // Intersection Observer for Fade-In
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("fade-in");
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      partners.forEach((partner) => {
+        observer.observe(partner);
+      });
+    </script>
+     
+  </body>
+</html>

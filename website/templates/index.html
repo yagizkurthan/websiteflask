@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedShield | Healthcare Security</title>
+    <link
+  href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"
+  rel="stylesheet"
+/>
+    <style>
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: "Montserrat", sans-serif;
+        background-color: rgba(19, 19, 19, 0.47);
+      }
+
+      /* Navbar Styling */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.51);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: background-color 0.3s ease-in-out;
+        height: 60px;
+      }
+      header h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 900;
+        background: rgb(255, 255, 255);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      nav a {
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 8px 16px;
+        transition: color 0.3s ease;
+      }
+      nav a:hover {
+        color: #38bdf8;
+      }
+
+      /* Header Section with Video */
+      .hero {
+        position: relative;
+        height: 100vh; /* Full-screen height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        overflow: hidden;
+      }
+      .hero video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+      .hero-content {
+        z-index: 1;
+        padding: 20px;
+      }
+      .hero h1 {
+        font-size: 3.5em;
+        background: linear-gradient(to right, #3b82f6, #6366f1, #ec4899);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .hero p {
+        font-size: 1.3em;
+      }
+
+      /* Contact Us Button */
+      .contact-us-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(to right, #3b82f6, #6366f1, #ec4899);
+        color: white;
+        padding: 15px 25px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 1rem;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 1001; /* Ensures it's above all other content */
+      }
+      .contact-us-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <h1>MedShield</h1>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('views.about') }}">About Us</a></li>
+
+          <li>
+            <a href="{{ url_for('views.partners') }}">Clients</a>
+          </li>
+          {% if not user.is_authenticated %}
+          <li>
+            <a href="{{ url_for('auth.login') }}">Login</a>
+          </li>
+
+          {% else %}
+          <li>
+            <a href="{{ url_for('views.home') }}">Monitoring</a>
+            <a href="{{ url_for('auth.logout') }}">Logout</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <video autoplay muted loop>
+        <source
+          src="{{ url_for('static', filename='videos/indexvideo.mp4') }}"
+          type="video/mp4"
+        />
+        Your browser does not support the video tag.
+      </video>
+      <div class="hero-content">
+        <h1>Smart Healthcare Security</h1>
+        <p>
+          Experience innovative solutions to ensure safety and security for your
+          staff and patients.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact Us Button -->
+    <button
+      class="contact-us-btn"
+      onclick="window.location.href='{{ url_for('views.contact') }}'"
+    >
+      Contact Us
+    </button>
+  </body>
+</html>

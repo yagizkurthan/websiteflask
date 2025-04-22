@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <title>MedShield</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: rgba(48, 48, 48, 0.13);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
+    
+      header {
+        position: sticky;
+        top: 0;
+        background: rgba(0, 0, 0, 0.51);
+        z-index: 50;
+        padding: 1rem;
+        backdrop-filter: blur(5px);
+      }
+    
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+      }
+    
+      .nav-links {
+        display: flex;
+        gap: 16px;
+      }
+    
+      nav a {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 8px 16px;
+        transition: color 0.3s ease;
+      }
+    
+      nav a:hover {
+        color: #38bdf8;
+        text-decoration: underline;
+      }
+    
+      .camera-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 0.75rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+    
+      .camera-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+      }
+    
+      .camera-card video {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 0.75rem;
+      }
+    
+      .camera-card .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 0.75rem;
+      }
+    
+      .camera-card:hover .overlay {
+        opacity: 1;
+      }
+    
+      .overlay h5 {
+        color: #ffffff;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+    
+      .alert-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(81, 81, 81, 0.2);
+        cursor: pointer;
+        background-color: rgba(40, 36, 36, 0.26);
+        border-radius: 0.5rem;
+        transition: background-color 0.3s;
+      }
+    
+      .alert-item:hover {
+        background-color: #333;
+      }
+    
+      .alert-item svg {
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
+        fill: none;
+      }
+    
+      .alert-item p {
+        color: #ffffff;
+      }
+    
+      .alert-time {
+        color: #adadad;
+        font-size: 0.875rem;
+      }
+    
+      footer {
+        background-color: rgba(48, 48, 48, 0.13);
+        padding: 20px;
+        text-align: center;
+        color: #ffffff;
+      }
+    
+      footer p {
+        font-size: 0.875rem;
+      }
+    
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(48, 48, 48, 0.8);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease-out;
+      }
+    
+      .modal.active {
+        display: flex;
+      }
+      
+      video::-webkit-media-controls {
+        display: none !important;
+      }
+      
+      video::-moz-media-controls {
+        display: none !important;
+      }
+      
+      video::-ms-media-controls {
+        display: none !important;
+      }
+      
+      .video-player-container {
+        
+        background-color: #111;
+        border-radius: 16px;
+        padding: 20px;
+        position: relative;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+        max-width: 90%;
+        max-height: 80%;
+        overflow: hidden;
+        animation: slideIn 0.3s ease-out;
+      }
+    
+      .video-player-container video {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        background-color: black;
+        outline: none;
+      }
+    
+      .close-button {
+        position: absolute;
+        top: 21px;
+        right: 21px;
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.3s ease;
+      }
+    
+      .close-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    
+      .profile-dropdown {
+        position: relative;
+        max-height: 32px;
+        max-width: 32px;
+        top: 4px;
+      }
+    
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: rgba(48, 48, 48, 0.13);
+        border-radius: 8px;
+        padding: 12px;
+        min-width: 200px;
+        display: none;
+        z-index: 10;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+    
+      .dropdown-menu.active {
+        display: block;
+      }
+    
+      .dropdown-menu p {
+        margin: 0;
+        color: #ffffff;
+        font-size: 0.875rem;
+      }
+    
+      .logout-button {
+        margin-top: 12px;
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 8px 16px;
+        background-color: #ff4d4f;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+    
+      .logout-button:hover {
+        background-color: #e04343;
+      }
+    </style>
+    
+  </head>
+  <body>
+    <div
+      class="relative flex min-h-screen flex-col bg-[#131313] overflow-x-hidden"
+    >
+      <header>
+        <nav>
+          <div class="flex items-center gap-4">
+            <div class="w-8 h-8 text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100"
+                height="100"
+                fill="currentColor"
+                class="bi bi-eye"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"
+                />
+                <path
+                  d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"
+                />
+              </svg>
+            </div>
+            <h2 class="text-lg font-bold text-white">MedShield</h2>
+          </div>
+          <div class="nav-links">
+            {% if user.is_admin %}
+            <a href="{{ url_for('views.panel') }}">User Management</a>
+            {% endif %}
+
+            <!-- Profile Icon -->
+            <div class="profile-dropdown">
+              <div
+                class="cursor-pointer w-8 h-8 bg-[#363636] rounded-full flex items-center justify-center text-white"
+                onclick="toggleDropdown()"
+              >
+                <span class="font-bold">U</span>
+              </div>
+              <!-- Dropdown Menu -->
+              <div id="dropdownMenu" class="dropdown-menu">
+                <p><strong>ID:</strong> {{ user.id }}</p>
+                <p><strong>Name:</strong> {{ user.first_name }}</p>
+                <button class="logout-button" onclick="logout()">Logout</button>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <main class="flex justify-between py-6 px-4">
+        <div class="flex-1">
+          <h1 class="text-3xl font-bold mb-6 text-white">Live View</h1>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <script>
+              for (let i = 1; i <= 8; i++) {
+                document.write(`
+                <div class="camera-card" data-camera="${i}" onclick="openCamera('static/videos/test_${i}.mp4')">
+                  <video autoplay loop muted>
+                    <source src="static/videos/test_${i}.mp4" type="video/mp4" />
+                  </video>
+                  <div class="overlay">
+                    <h5>View Camera ${i}</h5>
+                  </div>
+                </div>
+              `);
+              }
+            </script>
+          </div>
+        </div>
+
+        <div
+  id="alerts"
+  class="w-80 p-4 rounded-lg bg-[#131313]"
+  style="max-width: 360px"
+>
+  <h3 class="text-lg font-bold mb-4 text-white">Alerts</h3>
+  <div
+    class="alert-item"
+    onclick="openCamera('static/videos/test_1.mp4')"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      class="text-yellow-500"
+    >
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        stroke-width="2"
+        fill="none"
+      />
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 6v6l3 3"
+        stroke="currentColor"
+        stroke-width="2"
+      />
+    </svg>
+    <div class="flex-1">
+      <p class="text-base font-medium">
+        Motion detected at the Lab Entrance
+      </p>
+      <p class="alert-time">10:32 AM</p>
+    </div>
+  </div>
+</div>
+
+    <!-- Modal for Video Playback -->
+    <div id="videoModal" class="modal">
+      <div class="video-player-container">
+        <video id="videoPlayer" controls autoplay class="rounded-lg">
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <button onclick="closeModal()" class="close-button">Close</button>
+      </div>
+    </div>
+
+    <script>
+      function openCamera(videoUrl) {
+        const videoPlayer = document.getElementById("videoPlayer");
+        const modal = document.getElementById("videoModal");
+        videoPlayer.src = videoUrl;
+        videoPlayer.play();
+        modal.classList.add("active");
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+        videoPlayer.pause();
+        videoPlayer.src = "";
+        modal.classList.remove("active");
+      }
+      function toggleDropdown() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("active");
+      }
+
+      function logout() {
+        alert("Logging out...");
+        // Redirect to logout page
+        window.location.href = "/logout"; // Update this URL to match your backend logout route
+      }
+
+      // Close dropdown if clicked outside
+      document.addEventListener("click", (event) => {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        const profileDropdown = document.querySelector(".profile-dropdown");
+        if (!profileDropdown.contains(event.target)) {
+          dropdownMenu.classList.remove("active");
+        }
+      });
+
+
+      window.onload = function () {
+        // Add the second alert after a delay
+        setTimeout(function () {
+          const alertsContainer = document.getElementById('alerts');
+    
+          // Create the second alert element
+          const secondAlert = document.createElement('div');
+          secondAlert.className = 'alert-item';
+          secondAlert.setAttribute(
+            'onclick',
+            "openCamera('static/videos/test_2.mp4')"
+          );
+          secondAlert.innerHTML = `
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              class="text-red-600"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="9"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v2m0 4h.01"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <div class="flex-1">
+              <p class="text-base font-medium">
+                Violence detected at Camera 2
+              </p>
+              <p class="alert-time">Just Now</p>
+            </div>
+          `;
+    
+          // Append the second alert to the container
+          alertsContainer.appendChild(secondAlert);
+        }, 20000); // 20 seconds delay
+      };
+    </script>
+  </body>
+</html>

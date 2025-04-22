@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope%3Awght%40400%3B500%3B700%3B800&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <title>MedShield User Management</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: rgb(19, 19, 19);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        background-color: #111;
+        z-index: 50;
+        padding: 1rem;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+      }
+
+      nav a {
+        color: #ffffff;
+        font-size: 1rem;
+        font-weight: 500;
+        padding: 8px 16px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      nav a:hover {
+        color: #38bdf8;
+        text-decoration: underline;
+      }
+
+      .profile-dropdown {
+        position: relative;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #2b2b2b;
+        border-radius: 8px;
+        padding: 12px;
+        min-width: 200px;
+        display: none;
+        z-index: 10;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .dropdown-menu.active {
+        display: block;
+      }
+
+      .dropdown-menu p {
+        margin: 0;
+        color: #adadad;
+        font-size: 0.875rem;
+      }
+
+      .logout-button {
+        margin-top: 12px;
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 8px 16px;
+        background-color: #ff4d4f;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .logout-button:hover {
+        background-color: #e04343;
+      }
+
+      .form-container {
+  display: flex;
+  flex-wrap: wrap; /* Yatay yerine dikeyde yığılma sağlar */
+  gap: 16px;
+  margin: 20px 0;
+  background-color: #2b2b2b;
+  padding: 16px;
+  border-radius: 8px;
+  justify-content: flex-start;
+  align-items: flex-start; /* Elemanları üst hizada tutar */
+}
+
+
+.form-group {
+  flex: 1;
+  min-width: 120px;
+}
+
+
+
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background-color: #1a1a1a;
+  color: #d1d5db; /* Rengi beyazdan açık griye değiştirdim */
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  padding: 6px;
+  outline: none;
+}
+
+.form-group select {
+  color: #d1d5db; /* Yazı rengini gri yaptım */
+  background-color: #1a1a1a; /* Arka plan rengi */
+  border: 1px solid #4a4a4a;
+}
+
+
+      .form-group button {
+        margin-top: auto;
+        align-self: flex-end;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      table th,
+      table td {
+        padding: 12px;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #282828;
+        color: #ffffff;
+      }
+
+      table td {
+        background-color: #1a1a1a;
+        color: hsl(198, 64.3%, 50.6%);
+        border-bottom: 1px solid #282828;
+      }
+
+      .btn {
+  background-color: #38bdf8;
+  color: #ffffff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  align-self: flex-start; /* Solundaki kutucuklarla hizalar */
+  margin-top: 25px; /* Biraz yukarıdan boşluk bırakır */
+}
+
+
+
+      .btn:hover {
+        background-color: #319dd1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <h2 class="text-lg font-bold text-white">MedShield</h2>
+        <div class="nav-links">
+          <a href="{{ url_for('views.home') }}">Dashboard</a>
+          <div class="profile-dropdown">
+            <div
+              class="cursor-pointer w-8 h-8 bg-[#363636] rounded-full flex items-center justify-center text-white"
+              onclick="toggleDropdown()"
+            >
+              <span class="font-bold">U</span>
+            </div>
+            <div id="dropdownMenu" class="dropdown-menu">
+              <p><strong>ID:</strong> {{ user.id }}</p>
+              <p><strong>Name:</strong> {{ user.first_name }}</p>
+              <button class="logout-button" onclick="logout()">Logout</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex flex-col px-6 py-6">
+      <h1 class="text-3xl font-bold mb-6 text-white">User Management</h1>
+
+      <div class="form-container">
+        <form
+          method="POST"
+          style="display: flex; gap: 16px; align-items: center"
+        >
+          <input type="hidden" name="action" value="add" />
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" id="id" name="id" required />
+          </div>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+              <option value="Security Personnel">Security Personnel</option>
+              <option value="Security Chief">Security Chief</option>
+            </select>
+          </div>
+          <button type="submit" class="btn">Add User</button>
+        </form>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr data-id="{{ user.id }}">
+            <td>{{ user.id }}</td>
+            <td>
+              <span class="user-name">{{ user.first_name }}</span>
+              <input
+                type="text"
+                class="inline-input hidden"
+                value="{{ user.first_name }}"
+              />
+            </td>
+            <td>
+              <span class="user-email">{{ user.email }}</span>
+              <input
+                type="email"
+                class="inline-input hidden"
+                value="{{ user.email }}"
+              />
+            </td>
+            <td>
+              <span class="user-role">{{ user.role }}</span>
+              <select class="inline-input hidden">
+                <option value="Security Personnel" {% if user.role == 'Security Personnel' %}selected{% endif %}>Security Personnel</option>
+                <option value="Security Chief" {% if user.role == 'Security Chief' %}selected{% endif %}>Security Chief</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn edit-btn">Edit</button>
+              <button class="btn confirm-btn hidden">Confirm</button>
+              <form method="POST" style="display: inline-block">
+                <input type="hidden" name="action" value="delete" />
+                <input type="hidden" name="user_id" value="{{ user.id }}" />
+                <button type="submit" class="btn delete-btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+
+    <script>
+      function toggleDropdown() {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        dropdownMenu.classList.toggle("active");
+      }
+
+      function logout() {
+        alert("Logging out...");
+        window.location.href = "/logout";
+      }
+
+      document.querySelectorAll(".edit-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const row = event.target.closest("tr");
+          row.querySelector(".user-name").classList.add("hidden");
+          row.querySelector(".user-email").classList.add("hidden");
+          row.querySelector(".user-role").classList.add("hidden");
+          row
+            .querySelectorAll(".inline-input")
+            .forEach((input) => input.classList.remove("hidden"));
+          row.querySelector(".confirm-btn").classList.remove("hidden");
+          btn.classList.add("hidden");
+        });
+      });
+
+      document.querySelectorAll(".confirm-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const row = event.target.closest("tr");
+          const userId = row.dataset.id;
+          const name = row.querySelector(".inline-input[type='text']").value;
+          const email = row.querySelector(".inline-input[type='email']").value;
+          const role = row.querySelector("select").value; // Fixed to properly get the value from the select dropdown
+      
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.innerHTML = `
+            <input type="hidden" name="action" value="edit" />
+            <input type="hidden" name="user_id" value="${userId}" />
+            <input type="hidden" name="name" value="${name}" />
+            <input type="hidden" name="email" value="${email}" />
+            <input type="hidden" name="role" value="${role}" />
+          `;
+          document.body.appendChild(form);
+          form.submit();
+        });
+      });
+      
+    </script>
+  </body>
+</html>
